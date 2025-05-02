@@ -1,40 +1,135 @@
-Marutham Mozhi is a deep learning-based image classification project developed using Convolutional Neural Networks (CNNs) in TensorFlow/Keras, with GPU acceleration via CUDA.
-Designed for real-world applications, this model classifies images with high accuracy using Conv2D, MaxPooling, and Fully Connected layers.
+# 🌿 Plant Disease Recognition System
 
-The project is implemented in Jupyter Notebook and is fully compatible with Google Colab or any local machine with NVIDIA GPU + CUDA support.
+A deep learning-based web application that identifies plant leaf diseases from uploaded images. Built using TensorFlow and Streamlit, this tool helps farmers, researchers, and agricultural professionals detect and respond to plant diseases early and effectively.
 
-🚀 Features
-✅ CNN-based Image Classification with TensorFlow/Keras
+---
 
-✅ GPU Acceleration using CUDA (for faster training)
+## 📘 About This Project
 
-✅ Image Preprocessing & Augmentation for improved generalization
+This project uses a Convolutional Neural Network (CNN) trained on a large dataset of over 87,000 images across 38 disease categories. Users can upload a plant image, and the app will predict the disease class.
 
-✅ Real-time Predictions on new images
+---
 
-✅ Model Training & Evaluation with visualizations
+## 🔍 Features
 
-✅ Google Colab & Local Jupyter Notebook Compatibility
+- 🌱 Identify 38 types of plant diseases
+- 📷 Upload leaf images in `.jpg`, `.jpeg`, `.png`, or `.webp` format
+- 🧠 Deep learning model using TensorFlow and Keras
+- 💻 Simple and intuitive Streamlit UI
+- 📊 Trained on a robust and diverse dataset
 
-🛠 Technologies Used
-Python
+---
 
-TensorFlow/Keras (GPU support enabled)
+## 🚀 Tech Stack
 
-CUDA Toolkit (for local GPU training)
+- **Frontend**: Streamlit
+- **Backend/Model**: TensorFlow / Keras
+- **Language**: Python
+- **Deployment**: Localhost or Streamlit Cloud
 
-NumPy and Pandas
+---
 
-Matplotlib and Seaborn (for plots)
+## 🧠 Dataset Info
 
-Google Colab / Jupyter Notebook
+- Source: [PlantVillage Dataset](https://github.com/spMohanty/PlantVillage-Dataset)
+- Images: 87,000+ RGB images
+- Categories: 38 disease classes
+- Format: RGB, 128x128 resized
+- Augmented to increase data robustness
 
-Important Notes
-Ensure TensorFlow version supports GPU (TensorFlow 2.x usually supports it natively if CUDA drivers are installed).
+---
 
-A compatible CUDA and cuDNN version must be installed if running locally.
+## 🧰 Installation & Usage
 
-Training is significantly faster with GPU acceleration compared to CPU.
+### 🔧 Setup Environment
 
-"Marutham Mozhi bridges real-world AI with traditional simplicity — pushing the frontiers of image recognition with the power of CNNs and CUDA."
+1. Clone the repo:
+    ```bash
+    git clone https://github.com/yourusername/plant-disease-recognition.git
+    cd plant-disease-recognition
+    ```
+
+2. (Optional) Create a virtual environment:
+    ```bash
+    conda create -n plant-env python=3.9
+    conda activate plant-env
+    ```
+
+3. Install dependencies:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4. Run the app:
+    ```bash
+    streamlit run main.py
+    ```
+
+---
+
+## ⚙️ CUDA/GPU Setup (Optional)
+
+To speed up training or predictions using GPU:
+
+1. Install [NVIDIA CUDA Toolkit](https://developer.nvidia.com/cuda-downloads)
+2. Install [cuDNN](https://developer.nvidia.com/cudnn)
+3. Verify TensorFlow detects your GPU:
+    ```python
+    import tensorflow as tf
+    print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
+    ```
+
+Ensure your TensorFlow version matches your CUDA/cuDNN installation.
+
+---
+
+## 🗂️ Project Structure
+
+plant-disease-recognition/
+│
+├── main.py # Streamlit frontend + prediction logic
+├── trained_model.keras # Pretrained model
+├── requirements.txt # Python dependencies
+├── homepage.webp # Background image
+└── README.md # This file
+
+
+---
+
+## 💡 How to Use
+
+1. Navigate to `http://localhost:8501`
+2. Use the sidebar to select:
+   - **Home**: Welcome screen
+   - **About**: Dataset & project info
+   - **Disease Recognition**: Upload plant leaf and get prediction
+
+---
+
+## 📚 Topics
+
+deep-learning streamlit tensorflow computer-vision agriculture plant-disease image-classification cnn keras
+
+---
+
+## 📌 To-Do / Improvements
+
+- [ ] Add multi-language support
+- [ ] Add mobile responsiveness
+- [ ] Deploy to Streamlit Cloud or Hugging Face
+
+---
+
+## 🔗 Links
+
+- [Streamlit](https://streamlit.io)
+- [TensorFlow](https://tensorflow.org)
+- [Dataset Source](https://github.com/spMohanty/PlantVillage-Dataset)
+
+---
+
+## 📬 Contact
+
+For questions or suggestions, feel free to raise an issue or email me at `your@email.com`.
+
 
