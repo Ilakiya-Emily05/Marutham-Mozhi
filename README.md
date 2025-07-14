@@ -127,9 +127,35 @@ deep-learning streamlit tensorflow computer-vision agriculture plant-disease ima
 - [Dataset Source](https://github.com/spMohanty/PlantVillage-Dataset)
 
 ---
+14-07-25
+🌟 New: Gemini AI Integration
+Marutham Mozhi now integrates Google Gemini API to provide natural language advice in Tamil for detected plant diseases.
 
-## 📬 Contact
+After predicting the disease from the uploaded image, the app uses Gemini to:
 
-For questions or suggestions, feel free to raise an issue or email me at `your@email.com`.
+✅ Explain the disease in simple farmer-friendly Tamil
+
+🌿 Suggest natural treatments or best practices
+
+🤖 Respond in real-time with relevant context
+
+🔧 Gemini API Setup
+To enable Gemini features in your local environment:
+
+Get an API key from Google AI Studio
+Create a .env file in your project root:
+GEMINI_API_KEY=your_key_here
+Make sure .env is added to your .gitignore
+
+🧰 Required Python Packages
+
+pip install -r requirements.txt
+And ensure you’ve installed:
+
+google-generativeai
+python-dotenv
+tensorflow
+streamlit
+
 
 
