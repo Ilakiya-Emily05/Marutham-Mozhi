@@ -1,76 +1,81 @@
 import streamlit as st
 import tensorflow as tf
 import numpy as np
+from PIL import Image
+from gemini_helper import get_gemini_response
 
-# Set page config at the very top
-st.set_page_config(page_title="Plant Disease Detector", layout="centered")
+# 🔁 Cache model to speed up repeat predictions
+@st.cache_resource
+def load_model():
+    return tf.keras.models.load_model("trained_model.keras")
 
-# Model prediction function
 def model_prediction(test_image):
-    model = tf.keras.models.load_model("trained_model.keras")  # Updated model name
+    model = load_model()
     image = tf.keras.preprocessing.image.load_img(test_image, target_size=(128, 128))
     input_arr = tf.keras.preprocessing.image.img_to_array(image)
-    input_arr = np.array([input_arr])  # Convert to batch format
+    input_arr = np.array([input_arr])
     predictions = model.predict(input_arr)
     return np.argmax(predictions)
 
-# Sidebar navigation
+# Sidebar Navigation
 st.sidebar.title("Dashboard")
-app_mode = st.sidebar.selectbox("Select Page", ["Home", "About", "Disease Recognition"])
+app_mode = st.sidebar.selectbox("Select Page", ["Home / முகப்பு", "About / பற்றி", "Disease Recognition / நோய் கண்டறிதல்"])
 
 # Home Page
-if app_mode == "Home":
-    st.header("🌱 PLANT DISEASE RECOGNITION SYSTEM")
-    bg_image_path = r"C:\Users\ilaki\Desktop\Marutham Mozhi\homepage.webp"
-    st.image(bg_image_path, use_column_width=True)
+if app_mode == "Home / முகப்பு":
+    st.header("🌿 Marutham Mozhi / மருதம் மொழி")
+    bg_image_path = r"C:\Users\ilaki\Desktop\Marutham Mozhi\Homepage.png"
+    st.image(bg_image_path, use_container_width=True)
+
+    st.markdown("#### 🪔 *“வளரும் இலை; வளரும் வாழ்வு.”* — A leaf that grows, nurtures life.")
+
     st.markdown("""
-    Welcome to the Plant Disease Recognition System! 🌿🔍
+    ## Welcome to **Marutham Mozhi** 🌾  
+    **மருதம் மொழிக்கு வரவேற்கிறோம்!**
 
-    Our mission is to help identify plant diseases efficiently. Upload an image of a plant, and our system will analyze it to detect any signs of diseases. Together, let's protect our crops and ensure a healthier harvest!
+    _"Where the whisper of leaves tells ancient tales, and every green breath feeds the world."_  
+    _"இலைகள் சொல்வது பண்டை கதைகள்; பசுமை மூச்சே உலகை உயிர்த்தக்காக்கிறது."_
 
-    ### How It Works
-    1. **Upload Image:** Go to the **Disease Recognition** page and upload an image of a plant.
-    2. **Analysis:** Our system processes the image using advanced deep learning techniques.
-    3. **Results:** View the predicted disease and take action!
+    Plants are the silent givers — the root of our food, the soul of our ecosystems.  
+    **மரங்கள் நம்மை போஷிக்கின்றன. ஆனால் தெரியாத நோய்கள் அவற்றைப் பாதிக்கின்றன.**
 
-    ### Why Choose Us?
-    - **Accurate:** Trained on a robust dataset of 87,000+ images.
-    - **Simple UI:** Intuitive and user-friendly interface.
-    - **Fast:** Get results in seconds!
+    **Marutham Mozhi** is a bridge — connecting traditional farming wisdom with modern AI.  
+    **மருதம் மொழி** என்பது பாரம்பரிய வேளாண்மை அறிவையும், நவீன தொழில்நுட்பத்தையும் இணைக்கும் பாலமாகும்.
 
-    👉 Click on **Disease Recognition** in the sidebar to get started!
+    👉 Start from the sidebar! / **வலப்பக்கம் பட்டியலில் தொடங்கு!**
     """)
+
+    st.markdown("<hr><center>🌿 *Dedicated to the farmers, the land, and the language that feeds us.* 🌾</center>", unsafe_allow_html=True)
 
 # About Page
-elif app_mode == "About":
-    st.header("About the Project")
+elif app_mode == "About / பற்றி":
+    st.header("📘 About the Project / திட்டத்தைப் பற்றி")
     st.markdown("""
-    #### 📊 Dataset Info
-    This dataset is a refined version created using offline augmentation based on the original public dataset.
+    ## 📚 Dataset: The Roots of Knowledge  
+    **தகவல் தொகுப்பு: அறிவின் வேர்கள்**
 
-    - 87,000+ RGB images of healthy and diseased crop leaves
-    - 38 disease categories
-    - Divided as:
-      - **Train:** 70,295 images
-      - **Validation:** 17,572 images
-      - **Test:** 33 images
+    We use the **PlantVillage Dataset** – with 87,000+ images from various crops and diseases.  
+    **87,000+ படங்கள் கொண்ட தொகுப்பு, பல பயிர்கள் மற்றும் நோய்கள் அடங்கியுள்ளன.**
 
-    #### 🔗 Source
-    [Original Dataset GitHub Repository](https://github.com/spMohanty/PlantVillage-Dataset)
+    - **Training / பயிற்சி:** 70,295
+    - **Validation / சரிபார்ப்பு:** 17,572
+    - **Testing / சோதனை:** 33
+
+    *Marutham Mozhi is not just a tool — it's a tribute.*  
+    **மருதம் மொழி என்பது கருவி மட்டுமல்ல; மரபுக்கான அஞ்சலி.**
     """)
 
-# Disease Prediction Page
-elif app_mode == "Disease Recognition":
-    st.header("🩺 Disease Recognition")
-    test_image = st.file_uploader("Upload a Plant Leaf Image", type=["jpg", "jpeg", "png", "webp"])
+# Prediction Page
+elif app_mode == "Disease Recognition / நோய் கண்டறிதல்":
+    st.header("🩺 Disease Recognition / தாவர நோய் கண்டறிதல்")
+    test_image = st.file_uploader("📤 Upload a Plant Leaf Image / ஒரு இலைப் படத்தை பதிவேற்றவும்", type=["jpg", "jpeg", "png", "webp"])
 
     if test_image is not None:
-        if st.button("Show Image"):
-            st.image(test_image, use_column_width=True)
+        st.image(test_image, caption="📸 Uploaded Image", use_container_width=True)
 
-        if st.button("Predict"):
+        if st.button("🔍 Predict / கணிப்பு"):
             st.snow()
-            st.write("🔍 Analyzing the image...")
+            st.write("🧠 Analyzing the image... / படம் பகுப்பாய்வு செய்யப்படுகிறது...")
 
             try:
                 result_index = model_prediction(test_image)
@@ -92,6 +97,21 @@ elif app_mode == "Disease Recognition":
                     'Tomato___healthy'
                 ]
 
-                st.success(f"✅ Our model predicts: **{class_name[result_index]}**")
+                disease_result = class_name[result_index]
+
+                st.success(f"✅ Predicted: **{disease_result}**\n\n🎉 கணிக்கப்பட்ட நோய்: **{disease_result}**")
+
+                # 🌱 Gemini API for treatment advice
+                with st.spinner("🌿 Getting advice from Gemini..."):
+                    advice = get_gemini_response(disease_result)
+
+                if advice:
+                    st.markdown("### 🤖 Gemini Says (in Tamil):")
+                    st.write(advice)
+                else:
+                    st.warning("⚠️ Gemini could not return any advice.")
+
             except Exception as e:
-                st.error(f"Error loading model or making prediction.\n\n{e}")
+                st.error(f"❌ Error during prediction or Gemini response: {e}")
+
+    st.markdown("""<hr><center>🌿 *“உழுவார் உலகத்தார்க்கெல்லாம் எழுவார் முன்னனி தூணை.”* — *Thirukkural 1031*</center>""", unsafe_allow_html=True)
