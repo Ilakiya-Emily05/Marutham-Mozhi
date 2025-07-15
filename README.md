@@ -156,6 +156,8 @@ google-generativeai
 python-dotenv
 tensorflow
 streamlit
+
+
 Firebase Integration (Firestore)
 To enable prediction logging and future insights, Firebase Firestore has been added:
 Each prediction (disease label + timestamp) is saved in Firestore
